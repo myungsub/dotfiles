@@ -123,4 +123,4 @@ export PATH="/home/myungsub/anaconda3/bin:$PATH"
 export LD_LIBRARY_PATH="/usr/local/cuda/lib64:$LD_LIBRARY_PATH"
 
 
-. /home/myungsub/torch/install/bin/torch-activate
+. /home/mschoi/torch/install/bin/torch-activate
