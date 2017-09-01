@@ -116,11 +116,17 @@ if ! shopt -oq posix; then
   fi
 fi
 
+export CUDAHOME="/usr/local/cuda"
 # added by Anaconda3 4.4.0 installer
 export PATH="/home/myungsub/anaconda3/bin:$PATH"
 
 # for CUDA usage
 export LD_LIBRARY_PATH="/usr/local/cuda/lib64:$LD_LIBRARY_PATH"
-
+export PATH="/usr/local/cuda/bin:$PATH"
 
 . /home/mschoi/torch/install/bin/torch-activate
+# OpenMP num_threads (for pytorch not using up all resources
+export OMP_NUM_THREADS=3
+
+# added by Anaconda3 4.4.0 installer
+export PATH="/home/mschoi/anaconda3/bin:$PATH"

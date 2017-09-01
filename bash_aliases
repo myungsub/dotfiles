@@ -21,11 +21,11 @@ alias drm="docker rm"
 alias dps="docker ps"
 
 # SSH
-alias cmshome="ssh -p 8022 myungsub@panicmonster.hopto.org" # registered w/ noip2 (www.no-ip.com)
-alias cmslab="ssh -p 8022 mschoi@147.46.89.166"				# lab ubuntu pc
-alias vegas="ssh -p 8022 mschoi@147.46.89.200"				# lab Vegas server
-alias allseries="ssh -p 8022 mschoi@147.46.116.251"			# lab all-series server
-alias ara="ssh -p 8022 mschoi@147.46.123.225"				# lab Ara server
+alias cmshome="ssh -X -p 8022 myungsub@panicmonster.hopto.org" # registered w/ noip2 (www.no-ip.com)
+alias cmslab="ssh -X -p 8022 mschoi@147.46.89.166"				# lab ubuntu pc
+alias vegas="ssh -X -p 8022 mschoi@147.46.89.200"				# lab Vegas server
+alias allseries="ssh -X -p 8022 mschoi@147.46.116.251"			# lab all-series server
+alias ara="ssh -X -p 8022 mschoi@147.46.123.225"				# lab Ara server
 
 # Get week number
 alias week='date +%V'
