@@ -26,6 +26,7 @@ alias cmslab="ssh -X -p 8022 mschoi@147.46.89.166"				# lab ubuntu pc
 alias vegas="ssh -X -p 8022 mschoi@147.46.122.39"				# lab Vegas server
 alias allseries="ssh -X -p 8022 mschoi@147.46.76.126"			# lab all-series server
 alias ara="ssh -X -p 8022 mschoi@147.46.123.225"				# lab Ara server
+alias bacchus="ssh -X -p 8022 mschoi@147.46.112.224"			# lab Bacchus server
 
 # Get week number
 alias week='date +%V'
