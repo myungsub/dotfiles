@@ -123,6 +123,7 @@ export PATH="/home/myungsub/anaconda3/bin:$PATH"
 # for CUDA usage
 export LD_LIBRARY_PATH="/usr/local/cuda/lib64:$LD_LIBRARY_PATH"
 export PATH="/usr/local/cuda/bin:$PATH"
+export CUDA_DEVICE_ORDER=PCI_BUS_ID
 
 . /home/mschoi/torch/install/bin/torch-activate
 # OpenMP num_threads (for pytorch not using up all resources

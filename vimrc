@@ -35,6 +35,9 @@ syntax on
 "set cursorline
 " Make tabs as wide as four spaces
 set tabstop=4
+set shiftwidth=4
+" On pressing tab, insert 4 spaces
+set expandtab
 " Show “invisible” characters
 "set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
 "set list
