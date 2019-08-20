@@ -27,6 +27,8 @@ alias vegas="ssh -X -p 8022 mschoi@147.46.122.39"				# lab Vegas server
 alias allseries="ssh -X -p 8022 mschoi@147.46.76.126"			# lab all-series server
 alias ara="ssh -X -p 8022 mschoi@147.46.123.225"				# lab Ara server
 alias bacchus="ssh -X -p 8022 mschoi@147.46.112.224"			# lab Bacchus server
+alias freya="ssh -X -p 8022 mschoi@147.46.112.147"              # lab Freya server
+alias gaia="ssh -X -p 8022 mschoi@147.46.125.25"              # lab Gaia server
 
 # Get week number
 alias week='date +%V'
@@ -49,7 +51,19 @@ alias reload="exec $SHELL -l"
 alias path='echo -e ${PATH//:/\\n}'
 
 # Start Python Environments (tensorflow / pytorch)
-alias tf="source activate tensorflow"
-alias pytorch="source activate pytorch"
-alias deactivate="source deactivate"
-alias deac="source deactivate"
+alias anaconda="source ~/conda.bashrc"
+alias tf="conda activate tf"
+alias pytorch="conda activate pytorch"
+alias deactivate="conda deactivate"
+alias deac="conda deactivate"
+alias compression="conda activate compression"
+alias frame="conda activate frame"
+alias action="conda activate action"
+
+alias browse="python -m http.server 8080"
+
+function gdrive_download () {
+  CONFIRM=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate "https://docs.google.com/uc?export=download&id=$1" -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')
+  wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$CONFIRM&id=$1" -O $2
+  rm -rf /tmp/cookies.txt
+}
