@@ -7,16 +7,26 @@ if v:version >= 700
 set background=dark
 " Try to set colorscheme, silently fail if not available
 silent! colorscheme delek
+
 " Use the OS clipboard by default (on versions compiled with `+clipboard`)
-set clipboard=unnamed
+" Neovim uses unnamedplus, Vim uses unnamed
+if has('nvim')
+    set clipboard=unnamedplus
+else
+    set clipboard=unnamed
+endif
 " Enhance command-line completion
 set wildmenu
-" Allow cursor keys in insert mode
-set esckeys
+" Allow cursor keys in insert mode (vim only, not needed in neovim)
+if !has('nvim')
+    set esckeys
+endif
 " Allow backspace in insert mode
 set backspace=indent,eol,start
-" Optimize for fast terminal connections
-set ttyfast
+" Optimize for fast terminal connections (vim only, ignored in neovim)
+if !has('nvim')
+    set ttyfast
+endif
 " Add the g flag to search/replace by default
 set gdefault
 " Use UTF-8 without BOM
