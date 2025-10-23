@@ -1,8 +1,12 @@
-set background=dark
-colorscheme delek
-
 " Make Vim more useful
 set nocompatible
+
+" Only load advanced features if we're running actual vim (not classic vi)
+if v:version >= 700
+
+set background=dark
+" Try to set colorscheme, silently fail if not available
+silent! colorscheme delek
 " Use the OS clipboard by default (on versions compiled with `+clipboard`)
 set clipboard=unnamed
 " Enhance command-line completion
@@ -18,8 +22,10 @@ set gdefault
 " Use UTF-8 without BOM
 set encoding=utf-8
 set nobomb
-" Change mapleader
-let mapleader=","
+" Change mapleader (requires vim)
+if has("eval")
+    let mapleader=","
+endif
 " Don’t add empty newlines at the end of files
 set binary
 set noeol
@@ -30,8 +36,10 @@ set modelines=4
 
 " Enable line numbers
 set number
-" Enable syntax highlighting
-syntax on
+" Enable syntax highlighting (requires vim)
+if has("syntax")
+    syntax on
+endif
 " Highlight current line
 "set cursorline
 " Make tabs as wide as four spaces
@@ -70,14 +78,17 @@ set showcmd
 set scrolloff=3
 
 " Strip trailing whitespace (,ss)
-function! StripWhitespace()
-        let save_cursor = getpos(".")
-        let old_query = getreg('/')
-        :%s/\s\+$//e
-        call setpos('.', save_cursor)
-        call setreg('/', old_query)
-endfunction
-noremap <leader>ss :call StripWhitespace()<CR>
+" Only define function if eval feature is available
+if has("eval")
+    function! StripWhitespace()
+            let save_cursor = getpos(".")
+            let old_query = getreg('/')
+            :%s/\s\+$//e
+            call setpos('.', save_cursor)
+            call setreg('/', old_query)
+    endfunction
+    noremap <leader>ss :call StripWhitespace()<CR>
+endif
 
 " Automatic commands
 if has("autocmd")
@@ -87,4 +98,7 @@ if has("autocmd")
         autocmd BufNewFile,BufRead *.json setfiletype json syntax=javascript
         " Treat .md files as Markdown
         autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
+endif
+
+" End of vim-only features
 endif
