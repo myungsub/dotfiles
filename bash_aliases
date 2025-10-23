@@ -20,9 +20,6 @@ alias balias="vi ~/.bash_aliases"
 alias drm="docker rm"
 alias dps="docker ps"
 
-# SSH
-alias cmshome="ssh -X -p 8022 myungsub@panicmonster.hopto.org" # registered w/ noip2 (www.no-ip.com)
-
 # Get week number
 alias week='date +%V'
 
