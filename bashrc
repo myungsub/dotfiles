@@ -133,3 +133,4 @@ export OMP_NUM_THREADS=8
 export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
 
 #. /home/mschoi/torch/install/bin/torch-activate
+export PATH="$HOME/.local/bin:$PATH"

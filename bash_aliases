@@ -42,15 +42,12 @@ alias path='echo -e ${PATH//:/\\n}'
 
 # Start Python Environments (tensorflow / pytorch)
 alias anaconda="source ~/conda.bashrc"
-alias tf="conda activate tf"
-alias pytorch="conda activate pytorch"
 alias deactivate="conda deactivate"
 alias deac="conda deactivate"
-alias compression="conda activate compression"
-alias frame="conda activate frame"
-alias action="conda activate action"
 
 alias browse="python -m http.server 8080"
+
+alias cc="claude --dangerously-skip-permissions"
 
 function gdrive_download () {
   CONFIRM=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate "https://docs.google.com/uc?export=download&id=$1" -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')
