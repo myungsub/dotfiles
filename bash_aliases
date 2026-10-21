@@ -27,12 +27,12 @@ alias week='date +%V'
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
 
 # IP addresses
-alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
-alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
+alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
+alias ips="command ip -o addr show | awk '{ sub(/\/.*/, \"\", \$4); print \$4 }'"
 
 # View HTTP traffic
-alias sniff="sudo ngrep -d 'en1' -t '^(GET|POST) ' 'tcp and port 80'"
-alias httpdump="sudo tcpdump -i en1 -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET \/.*\""
+alias sniff="sudo ngrep -d any -t '^(GET|POST) ' 'tcp and port 80'"
+alias httpdump="sudo tcpdump -i any -n -s 0 -w - | grep -a -o -E \"Host\: .*|GET \/.*\""
 
 # Reload the shell (i.e. invoke as a login shell)
 alias reload="exec $SHELL -l"
@@ -45,12 +45,11 @@ alias anaconda="source ~/conda.bashrc"
 alias deactivate="conda deactivate"
 alias deac="conda deactivate"
 
-alias browse="python -m http.server 8080"
+alias browse="python3 -m http.server 8080"
 
 alias cc="claude --dangerously-skip-permissions"
 
+# Usage: gdrive_download <file_id> <output>
 function gdrive_download () {
-  CONFIRM=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate "https://docs.google.com/uc?export=download&id=$1" -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')
-  wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$CONFIRM&id=$1" -O $2
-  rm -rf /tmp/cookies.txt
+  wget "https://drive.usercontent.google.com/download?id=$1&export=download&confirm=t" -O "$2"
 }

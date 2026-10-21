@@ -37,8 +37,9 @@ if has("eval")
     let mapleader=","
 endif
 " Don’t add empty newlines at the end of files
-set binary
-set noeol
+if exists('+fixendofline')
+    set nofixendofline
+endif
 
 " Respect modeline in files
 set modeline

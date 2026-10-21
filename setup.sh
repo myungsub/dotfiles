@@ -1,22 +1,14 @@
 #!/bin/bash
 # Initial setup
 
-# Make backup files if already exist
-if [ -f ~/.bashrc ]; then
-    mv ~/.bashrc ~/.bashrc.backup
-fi
-if [ -f ~/.bash_aliases ]; then
-    mv ~/.bash_aliases ~/.bash_aliases.backup
-fi
-if [ -f ~/.vimrc ]; then
-    mv ~/.vimrc ~/.vimrc.backup
-fi
-if [ -f ~/.tmux.conf ]; then
-	mv ~/.tmux.conf ~/.tmux.conf.backup
-fi
+DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Make symbolic links to the home directory
-ln -s ~/dotfiles/bashrc ~/.bashrc
-ln -s ~/dotfiles/bash_aliases ~/.bash_aliases
-ln -s ~/dotfiles/vimrc ~/.vimrc
-ln -s ~/dotfiles/tmux.conf ~/.tmux.conf
+for f in bashrc bash_aliases bash_profile vimrc tmux.conf; do
+    target=~/.$f
+    # Make backup files if already exist (skip links we created before)
+    if [ -e "$target" ] && [ ! -L "$target" ]; then
+        mv "$target" "$target.backup"
+    fi
+    # Make symbolic links to the home directory
+    ln -sfn "$DOTFILES/$f" "$target"
+done

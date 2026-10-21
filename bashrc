@@ -80,8 +80,8 @@ if [ -x /usr/bin/dircolors ]; then
     #alias vdir='vdir --color=auto'
 
     alias grep='grep --color=auto'
-    alias fgrep='fgrep --color=auto'
-    alias egrep='egrep --color=auto'
+    alias fgrep='grep -F --color=auto'
+    alias egrep='grep -E --color=auto'
 fi
 
 # colored GCC warnings and errors
@@ -116,21 +116,17 @@ if ! shopt -oq posix; then
   fi
 fi
 
-#export CUDAHOME="/usr/local/cuda-9.0"
-export CUDAHOME="/usr/local/cuda-10.0"
-
-# for CUDA usage
-export LD_LIBRARY_PATH="$CUDAHOME/lib64:$LD_LIBRARY_PATH"
-export PATH="$CUDAHOME/bin:$PATH"
+# for CUDA usage (/usr/local/cuda is a symlink to the installed version)
+if [ -d /usr/local/cuda ]; then
+    export CUDAHOME="/usr/local/cuda"
+    export LD_LIBRARY_PATH="$CUDAHOME/lib64${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
+    export PATH="$CUDAHOME/bin:$PATH"
+fi
 export CUDA_DEVICE_ORDER=PCI_BUS_ID
 
 # OpenMP num_threads (for pytorch not using up all resources
 export OMP_NUM_THREADS=8
 
-# added by Anaconda3 4.4.0 installer
-# export PATH="/home/mschoi/anaconda3/bin:$PATH"  # commented out by conda initialize
+export LD_LIBRARY_PATH="/usr/local/lib${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}"
 
-export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
-
-#. /home/mschoi/torch/install/bin/torch-activate
 export PATH="$HOME/.local/bin:$PATH"
