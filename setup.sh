@@ -25,6 +25,7 @@ LINKS=(
     "tmux.conf             .tmux.conf"
     "claude/CLAUDE.md      .claude/CLAUDE.md"
     "claude/settings.json  .claude/settings.json"
+    "claude/hooks/agent_guard.py  .claude/hooks/agent_guard.py"
 )
 
 run() {

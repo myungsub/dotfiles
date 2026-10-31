@@ -21,7 +21,8 @@ git clone https://github.com/myungsub/dotfiles ~/dotfiles
 | `vimrc`                | `~/.vimrc`                | Works in vim, neovim and vim.tiny |
 | `tmux.conf`            | `~/.tmux.conf`            | Prefix `C-a`, vi keys |
 | `claude/CLAUDE.md`     | `~/.claude/CLAUDE.md`     | Instructions Claude Code follows in every project |
-| `claude/settings.json` | `~/.claude/settings.json` | Permission allow/deny rules |
+| `claude/settings.json` | `~/.claude/settings.json` | Auto mode by default, permission allow/deny rules, guard hook |
+| `claude/hooks/agent_guard.py` | `~/.claude/hooks/agent_guard.py` | Blocks unsafe pushes, `gh pr merge --admin`, destructive SQL |
 
 ## Per-machine settings
 
@@ -41,6 +42,16 @@ If `~/.claude/settings.json` existed before, `setup.sh` moved it to
 
 ## Claude Code notes
 
+- `c` starts Claude Code in auto mode (`permissions.defaultMode`), which only
+  user settings can choose. Where auto mode is unavailable a session starts in
+  manual mode. `cy` skips every prompt.
+- `agent_guard.py` runs before every Bash command in every project and every
+  permission mode, `cy` included. It refuses a bare `git push`, pushes to
+  `main`/`master`/`dev`, `--all`/`--mirror`, force pushes without
+  `--force-with-lease`, `gh pr merge --admin`, and `TRUNCATE`/`DROP`/unbounded
+  `DELETE` through psql to a non-test database. Check it with
+  `python3 ~/.claude/hooks/agent_guard.py --selftest`. Project hooks (such as
+  trust-layer's `git_guard.py`) run alongside it.
 - Read-only commands (`ls`, `cat`, `grep`, read-only `git`, ...) never prompt,
   so `allow` lists only the extra commands worth skipping a prompt for.
 - `deny` rules hold in every permission mode, including `cy`

@@ -32,8 +32,8 @@ alias anaconda="source ~/conda.bashrc"
 alias deac="conda deactivate"
 
 # Claude Code. Not `cc`, which is the C compiler.
-alias c="claude"                                  # permissions from ~/.claude/settings.json
-alias cy="claude --dangerously-skip-permissions"  # no permission prompts at all
+alias c="claude"                                  # auto mode, per ~/.claude/settings.json
+alias cy="claude --dangerously-skip-permissions"  # no prompts; only deny rules and hooks still apply
 
 # Usage: gdrive_download <file_id> <output>
 gdrive_download() {

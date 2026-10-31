@@ -40,6 +40,9 @@ A repository's own `CLAUDE.md` or `AGENTS.md` takes precedence over this file.
   without `WHERE`): prepare the exact statement, show it, and let me run it.
 - The same goes for deleting shared storage, cloud resources, or data outside
   the working tree.
+- When a guard hook or permission rule blocks a command, do not route around it
+  with another tool or a different spelling. Say what you were trying to do
+  and let me decide.
 
 ## GPU servers
 
