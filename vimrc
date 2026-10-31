@@ -1,115 +1,36 @@
-" Make Vim more useful
+" ~/.vimrc — https://github.com/myungsub/dotfiles
+" Works in vim, neovim and vim.tiny (Ubuntu's `vi`). vim.tiny has no +eval,
+" so it skips everything inside the `if 1` block.
 set nocompatible
-
-" Only load advanced features if we're running actual vim (not classic vi)
-if v:version >= 700
-
-set background=dark
-" Try to set colorscheme, silently fail if not available
-silent! colorscheme delek
-
-" Use the OS clipboard by default (on versions compiled with `+clipboard`)
-" Neovim uses unnamedplus, Vim uses unnamed
-if has('nvim')
-    set clipboard=unnamedplus
-else
-    set clipboard=unnamed
-endif
-" Enhance command-line completion
-set wildmenu
-" Allow cursor keys in insert mode (vim only, not needed in neovim)
-if !has('nvim')
-    set esckeys
-endif
-" Allow backspace in insert mode
 set backspace=indent,eol,start
-" Optimize for fast terminal connections (vim only, ignored in neovim)
-if !has('nvim')
-    set ttyfast
-endif
-" Add the g flag to search/replace by default
-set gdefault
-" Use UTF-8 without BOM
-set encoding=utf-8
-set nobomb
-" Change mapleader (requires vim)
-if has("eval")
-    let mapleader=","
-endif
-" Don’t add empty newlines at the end of files
-if exists('+fixendofline')
-    set nofixendofline
-endif
 
-" Respect modeline in files
-set modeline
-set modelines=4
-
-" Enable line numbers
-set number
-" Enable syntax highlighting (requires vim)
-if has("syntax")
+if 1
+    set background=dark
+    silent! colorscheme delek
     syntax on
-endif
-" Highlight current line
-"set cursorline
-" Make tabs as wide as four spaces
-set tabstop=4
-set shiftwidth=4
-" On pressing tab, insert 4 spaces
-set expandtab
-" Show “invisible” characters
-"set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
-"set list
-" Highlight searches
-set hlsearch
-" Ignore case of searches
-set ignorecase
-" Highlight dynamically as pattern is typed
-set incsearch
-" Always show status line
-set laststatus=2
-" Enable mouse in all modes
-set mouse=a
-" Disable error bells
-set noerrorbells
-" Don’t reset cursor to start of line when moving around.
-set nostartofline
-" Show the cursor position
-set ruler
-" Don’t show the intro message when starting Vim
-set shortmess=atI
-" Show the current mode
-set showmode
-" Show the filename in the window titlebar
-set title
-" Show the (partial) command as it’s being typed
-set showcmd
-" Start scrolling three lines before the horizontal window border
-set scrolloff=3
+    filetype on
 
-" Strip trailing whitespace (,ss)
-" Only define function if eval feature is available
-if has("eval")
+    " System clipboard when this build has one (unnamedplus in neovim)
+    if has('clipboard')
+        let &clipboard = has('nvim') ? 'unnamedplus' : 'unnamed'
+    endif
+
+    set number ruler showcmd showmode title laststatus=2
+    set tabstop=4 shiftwidth=4 expandtab
+    set hlsearch incsearch ignorecase gdefault
+    set wildmenu mouse=a scrolloff=3 nostartofline shortmess=atI noerrorbells
+    set encoding=utf-8 nobomb
+    set modeline modelines=4
+    if exists('+fixendofline')
+        set nofixendofline
+    endif
+
+    " ,ss strips trailing whitespace without moving the view or the last search
+    let mapleader = ","
     function! StripWhitespace()
-            let save_cursor = getpos(".")
-            let old_query = getreg('/')
-            :%s/\s\+$//e
-            call setpos('.', save_cursor)
-            call setreg('/', old_query)
+        let l:view = winsaveview()
+        keeppatterns %s/\s\+$//e
+        call winrestview(l:view)
     endfunction
     noremap <leader>ss :call StripWhitespace()<CR>
-endif
-
-" Automatic commands
-if has("autocmd")
-        " Enable file type detection
-        filetype on
-        " Treat .json files as .js
-        autocmd BufNewFile,BufRead *.json setfiletype json syntax=javascript
-        " Treat .md files as Markdown
-        autocmd BufNewFile,BufRead *.md setlocal filetype=markdown
-endif
-
-" End of vim-only features
 endif
