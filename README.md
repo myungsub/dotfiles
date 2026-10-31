@@ -20,9 +20,15 @@ git clone https://github.com/myungsub/dotfiles ~/dotfiles
 | `bash_profile`         | `~/.bash_profile`         | Makes login shells (new tmux panes) load `~/.profile` / `~/.bashrc` |
 | `vimrc`                | `~/.vimrc`                | Works in vim, neovim and vim.tiny |
 | `tmux.conf`            | `~/.tmux.conf`            | Prefix `C-a`, vi keys |
-| `claude/CLAUDE.md`     | `~/.claude/CLAUDE.md`     | Instructions Claude Code follows in every project |
+| `agents/AGENTS.md`     | `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md` | Instructions Claude Code and Codex follow in every project |
 | `claude/settings.json` | `~/.claude/settings.json` | Auto mode by default, permission allow/deny rules, guard hook |
 | `claude/hooks/agent_guard.py` | `~/.claude/hooks/agent_guard.py` | Blocks unsafe pushes, `gh pr merge --admin`, destructive SQL |
+
+`setup.sh` also puts `project_doc_fallback_filenames = ["CLAUDE.md"]` at the
+top of `~/.codex/config.toml`, so Codex reads a directory's `CLAUDE.md` when it
+has no `AGENTS.md`. Codex writes to that file itself (project trust, for
+example), so it is edited in place rather than linked, and an existing value
+for the key is left alone.
 
 ## Per-machine settings
 

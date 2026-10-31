@@ -18,13 +18,14 @@ esac
 
 # <path in this repository>  <path under $HOME>
 LINKS=(
-    "bashrc                .bashrc"
-    "bash_aliases          .bash_aliases"
-    "bash_profile          .bash_profile"
-    "vimrc                 .vimrc"
-    "tmux.conf             .tmux.conf"
-    "claude/CLAUDE.md      .claude/CLAUDE.md"
-    "claude/settings.json  .claude/settings.json"
+    "bashrc                       .bashrc"
+    "bash_aliases                 .bash_aliases"
+    "bash_profile                 .bash_profile"
+    "vimrc                        .vimrc"
+    "tmux.conf                    .tmux.conf"
+    "agents/AGENTS.md             .claude/CLAUDE.md"
+    "agents/AGENTS.md             .codex/AGENTS.md"
+    "claude/settings.json         .claude/settings.json"
     "claude/hooks/agent_guard.py  .claude/hooks/agent_guard.py"
 )
 
@@ -51,3 +52,22 @@ for entry in "${LINKS[@]}"; do
     run ln -sfn "$src" "$dst"
     echo "linked $dst -> $src"
 done
+
+# Codex also writes ~/.codex/config.toml (project trust, ...), so instead of
+# linking it, make sure it carries the one key this setup needs: read CLAUDE.md
+# in directories that have no AGENTS.md. A top-level TOML key has to come
+# before the first table, so it goes on the first line.
+codex_config="$HOME/.codex/config.toml"
+fallback_line='project_doc_fallback_filenames = ["CLAUDE.md"]'
+if [ -L "$codex_config" ]; then
+    echo "skipped $codex_config: it is a link; add '$fallback_line' to its target"
+elif ! grep -Eq '^[[:space:]]*project_doc_fallback_filenames[[:space:]]*=' "$codex_config" 2>/dev/null; then
+    if (( DRY_RUN )); then
+        echo "+ prepend '$fallback_line' to $codex_config"
+    else
+        mkdir -p "$(dirname "$codex_config")"
+        existing="$(cat "$codex_config" 2>/dev/null || true)"
+        printf '%s\n%s' "$fallback_line" "${existing:+$existing$'\n'}" > "$codex_config"
+    fi
+    echo "set $fallback_line in $codex_config"
+fi
