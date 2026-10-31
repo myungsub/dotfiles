@@ -38,3 +38,15 @@ It is read by every shell, including the non-interactive one that
 If `~/.claude/settings.json` existed before, `setup.sh` moved it to
 `~/.claude/settings.json.backup`. Merge anything you still need from it into
 `claude/settings.json`.
+
+## Claude Code notes
+
+- Read-only commands (`ls`, `cat`, `grep`, read-only `git`, ...) never prompt,
+  so `allow` lists only the extra commands worth skipping a prompt for.
+- `deny` rules hold in every permission mode, including `cy`
+  (`--dangerously-skip-permissions`), where `allow` rules have no effect.
+  A `Read` deny also covers Edit/Write and shell reads such as `cat`, but not
+  a program that opens the file itself.
+- `/config` and `/model` write to `~/.claude/settings.json`. If
+  `git status` here shows a change you did not make, that is where it came
+  from; if `~/.claude/settings.json` is no longer a link, re-run `setup.sh`.
